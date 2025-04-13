@@ -1,7 +1,7 @@
 # kubernetes-schedule
 Based on taint, toleration, node affinity, pod affinity, and pod anti-affinity for subtle scenario scheduling
 
-## Scheme Design
+## Scheme Design (2Master+4Wokerer)
 ### 1.GPU-Intensive Service Disaster Recovery Deployment
 #### Node Configuration:
 Node1 & Node2: Taint gpu=true:NoSchedule, label hardware=gpu  
