@@ -21,7 +21,7 @@ Node2: Taint cache=memcached:NoSchedule, Label app=memcached
 Node3 & Node4: No taints, Label app=web  
 #### Requirements:
 Deploy a Deployment with 4 replicas running a web service.  
-Each web pod must co-locate with a Redis or Memcached pod on the same node (using Pod Affinity).  
+Each web pod must co-locate with a Redis or Memcached pod on the same node.  
 Web pods must have anti-affinity among themselves (avoid multiple replicas on the same node).  
 Web pods cannot be scheduled to taint-free nodes (Node3/Node4).
 #### Challenge:
@@ -35,9 +35,9 @@ All nodes have taint reserved=true:NoSchedule
 #### Requirements:
 Deploy a Deployment with 5 replicas for a global monitoring service.  
 Pods must tolerate the reserved taint.  
-Pods must run on nodes with topology=core (hard affinity).  
-No more than 2 Pods per region (anti-affinity based on region label).  
-At least 1 Pod should run on a node with topology=edge (soft affinity).
+Pods must run on nodes with topology=core .  
+No more than 2 Pods per region .  
+At least 1 Pod should run on a node with topology=edge.
 #### Challenge:
 Only Node3 and Node4 (in us-west) are labeled topology=core, but the deployment must distribute replicas across regions while adhering to the per-region limit. How to resolve this?
 
