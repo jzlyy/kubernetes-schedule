@@ -14,4 +14,18 @@ Node3 & Node4: Taint disk=ssd:NoSchedule, label hardware=ssd
 #### Challenge:
 Only 2 GPU nodes are available, but 3 replicas must be deployed across zones. How to resolve this?
 
-### 
+### Cache-Dependent Web Service
+#### Node Configurations:
+Node1: Taint cache=redis:NoSchedule, Label app=redis  
+Node2: Taint cache=memcached:NoSchedule, Label app=memcached  
+Node3 & Node4: No taints, Label app=web  
+#### Requirements:
+Deploy a Deployment with 4 replicas running a web service.  
+Each web pod must co-locate with a Redis or Memcached pod on the same node (using Pod Affinity).  
+Web pods must have anti-affinity among themselves (avoid multiple replicas on the same node).  
+Web pods cannot be scheduled to taint-free nodes (Node3/Node4).
+#### Challenge:
+Only Node1 and Node2 have cache services, but 4 web pods need to be scheduled. How to resolve this?
+
+
+ 
