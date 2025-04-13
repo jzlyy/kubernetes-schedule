@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gpu
+  namespace: gpu
+  labels:
+    type: gpu
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      type: gpu
+  template:
+    metadata:
+      labels:
+        type: gpu
+    spec:
+      containers:
+        - name: gpu
+          image: docker.io/library/nginx:1.22
+          ports:
+            - containerPort: 80
+
