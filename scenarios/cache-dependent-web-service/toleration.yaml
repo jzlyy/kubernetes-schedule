@@ -1,0 +1,4 @@
+tolerations:
+  - key: "cache"
+    operator: Exists
+    effect: NoSchedule
