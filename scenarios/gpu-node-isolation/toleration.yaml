@@ -1,0 +1,5 @@
+tolerations:
+  - key: "gpu"
+    operator: Equal
+    value: "true"
+    effect: NoSchedule
