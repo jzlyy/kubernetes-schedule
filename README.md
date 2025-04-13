@@ -27,7 +27,7 @@ Web pods cannot be scheduled to taint-free nodes (Node3/Node4).
 #### Challenge:
 Only Node1 and Node2 have cache services, but 4 web pods need to be scheduled. How to resolve this?
 
-### 3.Multi-Region Deployment for Global Services
+### 3.Multi-Region Deployment 
 #### Node Configurations:
 Node1 & Node2: Labels region=us-east, topology=edge  
 Node3 & Node4: Labels region=us-west, topology=core  
