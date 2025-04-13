@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: monitoring
+  namespace: monitoring
+  labels:
+    type: monitoring
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      type: monitoring
+  template:
+    metadata:
+      labels:
+        type: monitoring
+    spec:
+      containers:
+        - name: monitoring
+          image: docker.io/library/nginx:1.22
+          ports:
+            - containerPort: 80
