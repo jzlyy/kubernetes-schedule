@@ -27,5 +27,19 @@ Web pods cannot be scheduled to taint-free nodes (Node3/Node4).
 #### Challenge:
 Only Node1 and Node2 have cache services, but 4 web pods need to be scheduled. How to resolve this?
 
+### 3.Multi-Region Deployment for Global Services
+#### Node Configurations:
+Node1 & Node2: Labels region=us-east, topology=edge  
+Node3 & Node4: Labels region=us-west, topology=core  
+All nodes have taint reserved=true:NoSchedule  
+#### Requirements:
+Deploy a Deployment with 5 replicas for a global monitoring service.  
+Pods must tolerate the reserved taint.  
+Pods must run on nodes with topology=core (hard affinity).  
+No more than 2 Pods per region (anti-affinity based on region label).  
+At least 1 Pod should run on a node with topology=edge (soft affinity).
+#### Challenge:
+Only Node3 and Node4 (in us-west) are labeled topology=core, but the deployment must distribute replicas across regions while adhering to the per-region limit. How to resolve this?
+
 
  
