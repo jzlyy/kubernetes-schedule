@@ -2,7 +2,7 @@
 Based on taint, toleration, node affinity, pod affinity, and pod anti-affinity for subtle scenario scheduling
 
 ## Scheme Design
-### GPU-Intensive Service Disaster Recovery Deployment
+### 1.GPU-Intensive Service Disaster Recovery Deployment
 #### Node Configuration:
 Node1 & Node2: Taint gpu=true:NoSchedule, label hardware=gpu  
 Node3 & Node4: Taint disk=ssd:NoSchedule, label hardware=ssd
@@ -14,7 +14,7 @@ Node3 & Node4: Taint disk=ssd:NoSchedule, label hardware=ssd
 #### Challenge:
 Only 2 GPU nodes are available, but 3 replicas must be deployed across zones. How to resolve this?
 
-### Cache-Dependent Web Service
+### 2.Cache-Dependent Web Service
 #### Node Configurations:
 Node1: Taint cache=redis:NoSchedule, Label app=redis  
 Node2: Taint cache=memcached:NoSchedule, Label app=memcached  
