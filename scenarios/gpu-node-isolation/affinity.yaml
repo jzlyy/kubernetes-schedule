@@ -1,20 +1,16 @@
 affinity:
   nodeAffinity:
-    preferredDuringSchedulingIgnoredDuringExecution:
-      - weight: 10
-        preference:
-          matchExpressions:
-            - key: "zone"
-              operator: In
-              values: ["a"]
-            - key: "zone"
-              operator: In
-              values: ["b"]
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+          - key: "gpu"
+            operator: In
+            values: ["true"]
   podAntiAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
       - labelSelector:
-        matchExpressions:
-          - key: "type"
-            operator: In
-            values: ["gpu"]
-        topologyKey: kubernetes.io/hostname
+         matchExpressions:
+           - key: "app"
+             operator: In
+             values: ["gpu-inference"]
+        topologyKey: topology.kubernetes.io/zone
