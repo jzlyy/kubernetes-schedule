@@ -2,17 +2,24 @@
 Based on taint, toleration, node affinity, pod affinity, and pod anti-affinity for subtle scenario scheduling
 
 ## Scheme Design (2Master+4Wokerer)
-### 1.GPU-Intensive Service Disaster Recovery Deployment
+### 1.GPU Inference Service Multi-Availability Zone High Availability Deployment
 #### Node Configuration:
-Node1 & Node2: Taint gpu=true:NoSchedule, label hardware=gpu  
-Node3 & Node4: Taint disk=ssd:NoSchedule, label hardware=ssd
+##### 4 Worker nodes distributed across 3 availability zones:
+3 GPU nodes (each in a distinct zone: zone=zone1, zone=zone2, zone=zone3), labeled with gpu=true and tainted with gpu:NoSchedule.
+1 non-GPU node (no GPU, no gpu=true label or taint).
+##### All GPU nodes are labeled with app=gpu-inference
 #### Requirements:
-  Deploy a Deployment with 3 replicas running a GPU-intensive service.   
-  Pods must tolerate the GPU taint and only be scheduled to GPU nodes (Node1/Node2).  
-  Strict pod anti-affinity: No two pods can run on the same node.  
-  All pods must be distributed across different availability zones (assume Node1 & Node3 belong to zone=a, Node2 & Node4 to zone=b).
-#### Challenge:
-Only 2 GPU nodes are available, but 3 replicas must be deployed across zones. How to resolve this?
+##### Deploy a 3-replica inference service (inference-pod) with the following constraints:
+  Each replica must be exclusively placed in a different availability zone.  
+  Pods must be scheduled to GPU nodes only.
+##### Taint Tolerance:
+  Add a toleration for the gpu:NoSchedule taint to allow scheduling on GPU nodes.
+##### Node Affinity:
+  se nodeAffinity with a requiredDuringSchedulingIgnoredDuringExecution rule to enforce scheduling only on nodes labeled with gpu=true.
+##### Pod Anti-Affinity:
+  Use podAntiAffinity with a requiredDuringSchedulingIgnoredDuringExecution rule to ensure no two replicas are scheduled in the same availability zone (based on the zone label)
+##### Explicit Handling for Insufficient GPU Nodes
+  If GPU nodes are insufficient (e.g., fewer than 3 available), do not schedule Pods to non-GPU nodes (let them remain pending until GPU nodes meet requirements).
 
 ### 2.Cache-Dependent Web Service
 #### Node Configurations:
