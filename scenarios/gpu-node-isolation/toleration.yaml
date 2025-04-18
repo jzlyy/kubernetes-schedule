@@ -1,5 +1,4 @@
 tolerations:
   - key: "gpu"
-    operator: Equal
-    value: "true"
+    operator: Exists
     effect: NoSchedule
