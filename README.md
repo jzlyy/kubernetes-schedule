@@ -36,19 +36,18 @@ Based on taint, toleration, node affinity, pod affinity, and pod anti-affinity f
 ##### For backend service:
   Each replica must be distributed across different availability zones (zone).
 
-### 3.Multi-Region Deployment 
+### 3.Multi-Availability Zone-Sensitive Database Cluster
 #### Node Configurations:
-Node1 & Node2: Labels region=us-east, topology=edge  
-Node3 & Node4: Labels region=us-west, topology=core  
-All nodes have taint reserved=true:NoSchedule  
-#### Requirements:
-Deploy a Deployment with 5 replicas for a global monitoring service.  
-Pods must tolerate the reserved taint.  
-Pods must run on nodes with topology=core .  
-No more than 2 Pods per region .  
-At least 1 Pod should run on a node with topology=edge.
-#### Challenge:
-Only Node3 and Node4 (in us-west) are labeled topology=core, but the deployment must distribute replicas across regions while adhering to the per-region limit. How to resolve this?
+  Worker-node1: Labels: zone: zone-a, disk: ssd  
+  Worker-node2: Labels: zone: zone-b, disk: hdd
+  Worker-node3: Labels: zone: zone-c, disk: ssd
+  Worker-node3: Labels: zone: zone-a, disk: nvme
+#### Scheduling Requirements
+##### Deploy a 3-replica database service with:
+  Zone exclusivity: Each Pod must occupy a unique availability zone (3 replicas spanning 3 distinct zone labels).  
+  Preferred disk types: Prioritize scheduling Pods on nodes labeled with disk: ssd or disk: nvme.  
+  Node anti-affinity: No more than one database Pod may run on the same node.  
+  Fallback tolerance: If resources are insufficient, allow partial Pods to use nodes labeled with disk: hdd.
 
 
  
