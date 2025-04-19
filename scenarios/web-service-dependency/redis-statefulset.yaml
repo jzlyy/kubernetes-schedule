@@ -1,15 +1,12 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: redis
-  namespace: nginx
+  namespace: database
   labels:
     app: redis
 spec:
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 25%
+  serviceName:            #SERVICE_NAME
   replicas: 1
   selector:
     matchLabels:
@@ -25,12 +22,34 @@ spec:
           ports:
             - containerPort: 6379
               name: redis
+          command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+          volumeMounts:
+            - name: redis-config
+              mountPath: /usr/local/etc/redis
+            - name: redis-data
+              mountPath: /data
+      volumes:
+        - name: redis-config
+          configMap:
+            name: redis-config
+            items:
+              - key: redis.conf
+                path: redis.conf
+  volumeClaimTemplates:
+    - metadata:
+       name: redis-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 9Gi
+        storageClassName: static-redis
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: svc-redis
-  namespace: nginx
+  name:            #CUSTOMIZE
+  namespace: database
 spec:
   selector:
     app: redis
@@ -39,4 +58,5 @@ spec:
       port: 6379
       targetPort: redis
   type: ClusterIP
+
 
