@@ -1,4 +1,5 @@
 tolerations:
-  - key: "gpu"
-    operator: Exists
+  - key: "gpu-reserved"
+    operator: Equal
+    value: "true"
     effect: NoSchedule
