@@ -1,0 +1,29 @@
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+          - key: "service-tier"
+            operator: NotIn
+            values: ["backend"]
+  podAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 10
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: "env"
+                operator: In
+                values: ["prod"]
+          topologyKey: zone
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 10
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: "env"
+                operator: In
+                values: ["prod"]
+          topologyKey: zone
+
