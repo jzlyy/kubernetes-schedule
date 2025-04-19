@@ -1,4 +1,0 @@
-tolerations:
-  - key: "reserved"
-    operator: Exists
-    effect: NoSchedule
