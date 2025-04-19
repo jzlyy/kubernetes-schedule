@@ -17,18 +17,24 @@ Based on taint, toleration, node affinity, pod affinity, and pod anti-affinity f
   Toleration for GPU taint required by all Pods.  
   Anti-affinity: Pods from the same tenant (labeled with tenant: team-x) must not be scheduled on the same node.  
   Preferred topology spread: Prioritize distributing Pods across multiple availability zones (zone).
-### 2.Cache-Dependent Web Service
+### 2.Web Service Dependency and High Availability Deployment
 #### Node Configurations:
-Node1: Taint cache=redis:NoSchedule, Label app=redis  
-Node2: Taint cache=memcached:NoSchedule, Label app=memcached  
-Node3 & Node4: No taints, Label app=web  
-#### Requirements:
-Deploy a Deployment with 4 replicas running a web service.  
-Each web pod must co-locate with a Redis or Memcached pod on the same node.  
-Web pods must have anti-affinity among themselves (avoid multiple replicas on the same node).  
-Web pods cannot be scheduled to taint-free nodes (Node3/Node4).
-#### Challenge:
-Only Node1 and Node2 have cache services, but 4 web pods need to be scheduled. How to resolve this?
+##### All nodes:
+  Add label env: prod
+##### Worker1~2:
+  Add label service-tier: frontend
+##### Worker3~4:
+  Add label service-tier: backend
+##### Zone labels:
+  Worker1/3: zone: zone-a  
+  Worker2/4: zone: zone-b
+#### Scheduling Requirements
+#####Deploy a 2-replica frontend service with:
+  Zone co-location: Must be co-located in the same zone as any backend service node.  
+  Anti-affinity: Frontend Pods cannot be scheduled on the same node.  
+  Node restriction: Scheduling to nodes without service-tier: frontend is prohibited.
+##### For backend service:
+  Each replica must be distributed across different availability zones (zone).
 
 ### 3.Multi-Region Deployment 
 #### Node Configurations:
