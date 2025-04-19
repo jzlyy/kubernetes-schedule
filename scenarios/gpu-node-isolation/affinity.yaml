@@ -1,19 +1,20 @@
-affinity:
-  nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-        - matchExpressions:
-          - key: "gpu-type"
-            operator: In
-            values: ["a100"]
-  podAntiAffinity:
-    preferredDuringSchedulingIgnoredDuringExecution:
-      - weight: 10
-        podAffinityTerm:
-          labelSelector:
-            matchExpressions:
-              - key: "tenant"
-                operator: In
-                values: ["team-x"]
-          topologyKey: zone
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+            - key: "gpu-type"
+              operator: In
+              values: ["a100"]
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 10
+          podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+                - key: "tenant"
+                  operator: In
+                  values: ["team-x"]
+            topologyKey: zone
 
