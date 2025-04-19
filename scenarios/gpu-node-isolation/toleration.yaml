@@ -1,5 +1,6 @@
-tolerations:
-  - key: "gpu-reserved"
-    operator: Equal
-    value: "true"
-    effect: NoSchedule
+spec:
+  tolerations:
+    - key: "gpu-reserved"
+      operator: Equal
+      value: "true"
+      effect: NoSchedule
