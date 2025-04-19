@@ -1,16 +1,16 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: mysql
-  namespace: nginx
+  namespace: database
   labels:
     app: mysql
 spec:
-  strategy:
+  updateStrategy:
     type: RollingUpdate
     rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
+      partition: 1
+  serviceName:      #YOUR_SERVICE_NAME
   replicas: 3
   selector:
     matchLabels:
@@ -21,23 +21,41 @@ spec:
         app: mysql
     spec:
       containers:
-        - name: nginx
-          image: nginx:1.22
-          ports:
-            - containerPort: 80
-              name: nginx
+      - name: mysql
+        image: mysql:8.4.5
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name:       #CUSTOMIZE
+          mountPath: /var/lib/mysql
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name:      #SECRET_NAME
+              key: password
+  volumeClaimTemplates:
+      - metadata:
+         name:  #VLOUMEMOUNTS_NAME
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage:      #CUSTOMIZE
+          storageClassName:    #PV_NAME
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: svc-nginx
-  namespace: nginx
+  name:   #CUSTOMIZE
+  namespace: database
 spec:
   selector:
-    app: nginx
+    app: mysql
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: nginx
+      port: 3306
+      targetPort: mysql
   type: ClusterIP
 
