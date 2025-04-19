@@ -5,6 +5,7 @@ metadata:
   namespace: gpu
   labels:
     type: gpu
+    tenant: team-x
 spec:
   strategy:
     type: RollingUpdate
@@ -15,14 +16,31 @@ spec:
   selector:
     matchLabels:
       type: gpu
+      tenant: team-x
   template:
     metadata:
       labels:
         type: gpu
+        tenant: team-x
     spec:
       containers:
         - name: gpu
           image: docker.io/library/nginx:1.22
           ports:
             - containerPort: 80
+              name: nginx
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-nginx
+  namespace: nginx
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: nginx
+  type: ClusterIP
 
