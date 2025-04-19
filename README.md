@@ -49,5 +49,21 @@ Based on taint, toleration, node affinity, pod affinity, and pod anti-affinity f
   Node anti-affinity: No more than one database Pod may run on the same node.  
   Fallback tolerance: If resources are insufficient, allow partial Pods to use nodes labeled with disk: hdd.
 
+### 4.Tenant-Level Resource Preemption Defense
+### Node Configuration
+#### Worker1~2:
+  Apply taint shared-resource=limited:NoSchedule  
+  Add label capacity: high (Worker1), capacity: medium (Worker2)
+#### Worker3~4:
+  No taints  
+  Add label capacity: high (Worker3), capacity: medium (Worker4)
+### Scheduling Requirements
+#### Deploy a 4-replica Tenant-A batch job with:
+Taint tolerance: Pods must explicitly tolerate the shared-resource=limited:NoSchedule taint.  
+Per-node limit: No more than 2 Tenant-A Pods may run on the same node.  
+Node preference: Prioritize scheduling to nodes labeled with capacity: high.
+#### For Tenant-B Pods:  
+Strict anti-cohabitation: Pods must not coexist with Tenant-A Pods on the same node.  
+Node restriction: Scheduling is allowed only on taint-free nodes (Worker3~4).
 
  
