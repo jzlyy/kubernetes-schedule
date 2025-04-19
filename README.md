@@ -2,25 +2,21 @@
 Based on taint, toleration, node affinity, pod affinity, and pod anti-affinity for subtle scenario scheduling
 
 ## Scheme Design (2Master+4Wokerer)
-### 1.GPU Inference Service Multi-Availability Zone High Availability Deployment
+### 1.GPU Resource Isolation and Multi-Tenant Scheduling
 #### Node Configuration:
-##### 4 Worker nodes distributed across 3 availability zones:
-3 GPU nodes (each in a distinct zone: zone=zone1, zone=zone2, zone=zone3), labeled with gpu=true and tainted with gpu:NoSchedule.
-1 non-GPU node (no GPU, no gpu=true label or taint).
-##### All GPU nodes are labeled with app=gpu-inference
-#### Requirements:
-##### Deploy a 3-replica inference service (inference-pod) with the following constraints:
-  Each replica must be exclusively placed in a different availability zone.  
-  Pods must be scheduled to GPU nodes only.
-##### Taint Tolerance:
-  Add a toleration for the gpu:NoSchedule taint to allow scheduling on GPU nodes.
-##### Node Affinity:
-  se nodeAffinity with a requiredDuringSchedulingIgnoredDuringExecution rule to enforce scheduling only on nodes labeled with gpu=true.
-##### Pod Anti-Affinity:
-  Use podAntiAffinity with a requiredDuringSchedulingIgnoredDuringExecution rule to ensure no two replicas are scheduled in the same availability zone (based on the zone label)
-##### Explicit Handling for Insufficient GPU Nodes
-  If GPU nodes are insufficient (e.g., fewer than 3 available), do not schedule Pods to non-GPU nodes (let them remain pending until GPU nodes meet requirements).
-
+##### Worker1~2:
+  Add label gpu-type: a100  
+  Apply taint gpu-reserved=true:NoSchedule
+##### Worker3~4:
+  Add label gpu-type: none  
+  No taints
+##### All nodes:
+  Add zone label zone: zone-a (Worker1/3), zone: zone-b (Worker2/4)
+#### Scheduling Requirements
+  Exclusive use of GPU nodes (Worker1~2).  
+  Toleration for GPU taint required by all Pods.  
+  Anti-affinity: Pods from the same tenant (labeled with tenant: team-x) must not be scheduled on the same node.  
+  Preferred topology spread: Prioritize distributing Pods across multiple availability zones (zone).
 ### 2.Cache-Dependent Web Service
 #### Node Configurations:
 Node1: Taint cache=redis:NoSchedule, Label app=redis  
