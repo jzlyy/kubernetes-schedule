@@ -1,0 +1,5 @@
+tolerations:
+  - key: "shared-resource"
+    operator: Equal
+    value: "limited"
+    effect: NoSchedule
