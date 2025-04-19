@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: gpu
-  namespace: gpu
+  namespace: 
   labels:
     type: gpu
     tenant: team-x
@@ -25,22 +25,22 @@ spec:
     spec:
       containers:
         - name: gpu
-          image: docker.io/library/nginx:1.22
+          image:                 #YOUR_IMAGE
           ports:
             - containerPort: 80
-              name: nginx
+              name: gpu
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: svc-nginx
-  namespace: nginx
+  name:    
+  namespace: 
 spec:
   selector:
     app: nginx
   ports:
     - protocol: TCP
       port: 80
-      targetPort: nginx
+      targetPort: gpu
   type: ClusterIP
 
