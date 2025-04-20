@@ -5,13 +5,13 @@ Based on taint, toleration, node affinity, pod affinity, and pod anti-affinity f
 ### 1.GPU Resource Isolation and Multi-Tenant Scheduling
 #### Node Configuration:
 ##### Worker1~2:
-  Add label gpu-type: a100  
-  Apply taint gpu-reserved=true:NoSchedule
+  label gpu-type: a100  
+  taint gpu-reserved=true:NoSchedule
 ##### Worker3~4:
-  Add label gpu-type: none  
+  label gpu-type: none  
   No taints
 ##### All nodes:
-  Add zone label zone: zone-a (Worker1/3), zone: zone-b (Worker2/4)
+  zone label zone: zone-a (Worker1/3), zone: zone-b (Worker2/4)
 #### Scheduling Requirements
   Exclusive use of GPU nodes (Worker1~2).  
   Toleration for GPU taint required by all Pods.  
