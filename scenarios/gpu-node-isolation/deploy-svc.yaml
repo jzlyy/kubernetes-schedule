@@ -7,11 +7,6 @@ metadata:
     type: gpu
     tenant: team-x
 spec:
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
   replicas: 3
   selector:
     matchLabels:
@@ -25,22 +20,24 @@ spec:
     spec:
       containers:
         - name: gpu
-          image:                 #YOUR_IMAGE
+          image:                    #YOUR_IMAGE
           ports:
-            - containerPort: 80
+            - containerPort: 
               name: gpu
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name:    
-  namespace: 
+  namespace:
+  labels:
+    app: 
 spec:
   selector:
     app: 
   ports:
     - protocol: TCP
-      port: 80
+      port: 
       targetPort: gpu
   type: ClusterIP
 
