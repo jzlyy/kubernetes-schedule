@@ -1,16 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
-  namespace: nginx
+  name: 
+  namespace:
   labels:
     env: prod
 spec:
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
   replicas: 2
   selector:
     matchLabels:
@@ -21,23 +16,25 @@ spec:
         env: prod
     spec:
       containers:
-        - name: nginx
-          image: nginx:1.22
+        - name:
+          image:
           ports:
-            - containerPort: 80
-              name: nginx
+            - containerPort: 
+              name: 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: svc-nginx
-  namespace: nginx
+  name: 
+  namespace:
+  labels:
+    app: 
 spec:
   selector:
-    app: nginx
+    app:
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: nginx
+      port: 
+      targetPort: 
   type: ClusterIP
 
