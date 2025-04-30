@@ -7,11 +7,6 @@ metadata:
     app: 
     tenant: team-b
 spec:
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
   replicas: 4
   selector:
     matchLabels:
@@ -27,20 +22,22 @@ spec:
         - name: 
           image: 
           ports:
-            - containerPort: 80
+            - containerPort: 
               name: 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: 
-  namespace: 
+  namespace:
+  labels:
+    app:
 spec:
   selector:
     app: 
   ports:
     - protocol: TCP
-      port: 80
+      port: 
       targetPort:
   type: ClusterIP
 
