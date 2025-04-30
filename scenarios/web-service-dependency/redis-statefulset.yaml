@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: redis
-  namespace: database
+  name: redis 
+  namespace: 
   labels:
     app: redis
 spec:
