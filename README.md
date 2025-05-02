@@ -1,7 +1,7 @@
 # kubernetes-schedule
 Based on taint, toleration, node affinity, pod affinity, and pod anti-affinity for subtle scenario scheduling
 
-## The concepts include various scheduling combination schemes.
+## various scheduling combination schemes.
 ### You can learn about common scheduling combinations:
   Taint+Toleration  
   Taint+Toleration+PodAntiAffinity  
