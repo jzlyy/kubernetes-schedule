@@ -1,4 +1,6 @@
 # kubernetes-schedule
+[![GitHub License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+
 Based on taint, toleration, node affinity, pod affinity, and pod anti-affinity for subtle scenario scheduling
 
 ## various scheduling combination schemes.
