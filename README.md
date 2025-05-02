@@ -30,7 +30,7 @@ Based on taint, toleration, node affinity, pod affinity, and pod anti-affinity f
   Worker1/3: zone: zone-a  
   Worker2/4: zone: zone-b
 #### Scheduling Requirements
-#####Deploy a 2-replica frontend service with:
+##### Deploy a 2-replica frontend service with:
   Zone co-location: Must be co-located in the same zone as any backend service node.  
   Anti-affinity: Frontend Pods cannot be scheduled on the same node.  
   Node restriction: Scheduling to nodes without service-tier: frontend is prohibited.
