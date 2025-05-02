@@ -64,11 +64,9 @@ Based on taint, toleration, node affinity, pod affinity, and pod anti-affinity f
   label:  capacity: high (Worker3), capacity: medium (Worker4)
 ### Scheduling Requirements
 #### Deploy a 4-replica Tenant-A batch job with:
-Taint tolerance: Pods must explicitly tolerate the shared-resource=limited:NoSchedule taint.  
-Per-node limit: No more than 2 Tenant-A Pods may run on the same node.  
-Node preference: Prioritize scheduling to nodes labeled with capacity: high.
+  1. Taint tolerance: Pods must explicitly tolerate the shared-resource=limited:NoSchedule taint.  
+  2. Per-node limit: No more than 2 Tenant-A Pods may run on the same node.  
+  3. Node preference: Prioritize scheduling to nodes labeled with capacity: high.
 #### For Tenant-B Pods:  
-Strict anti-cohabitation: Pods must not coexist with Tenant-A Pods on the same node.  
-Node restriction: Scheduling is allowed only on taint-free nodes (Worker3~4).
-
- 
+  1. Strict anti-cohabitation: Pods must not coexist with Tenant-A Pods on the same node.  
+  2. Node restriction: Scheduling is allowed only on taint-free nodes (Worker3~4).
