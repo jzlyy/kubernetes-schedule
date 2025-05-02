@@ -5,13 +5,13 @@ Based on taint, toleration, node affinity, pod affinity, and pod anti-affinity f
 ### 1.GPU Resource Isolation and Multi-Tenant Scheduling
 #### Node Configuration:
 ##### Worker1~2:
-  label gpu-type: a100  
-  taint gpu-reserved=true:NoSchedule
+  label:  gpu-type: a100  
+  taint:  gpu-reserved=true:NoSchedule
 ##### Worker3~4:
-  label gpu-type: none  
+  label:  gpu-type: none  
   No taints
 ##### All nodes:
-  zone label zone: zone-a (Worker1/3), zone: zone-b (Worker2/4)
+  zone label:  zone: zone-a (Worker1/3), zone: zone-b (Worker2/4)
 #### Scheduling Requirements
   Exclusive use of GPU nodes (Worker1~2).  
   Toleration for GPU taint required by all Pods.  
@@ -20,11 +20,11 @@ Based on taint, toleration, node affinity, pod affinity, and pod anti-affinity f
 ### 2.Web Service Dependency and High Availability Deployment
 #### Node Configurations:
 ##### All nodes:
-  Add label env: prod
+  label:  env: prod
 ##### Worker1~2:
-  Add label service-tier: frontend
+  label:  service-tier: frontend
 ##### Worker3~4:
-  Add label service-tier: backend
+  label:  service-tier: backend
 ##### Zone labels:
   Worker1/3: zone: zone-a  
   Worker2/4: zone: zone-b
@@ -52,11 +52,11 @@ Based on taint, toleration, node affinity, pod affinity, and pod anti-affinity f
 ### 4.Tenant-Level Resource Preemption Defense
 ### Node Configuration
 #### Worker1~2:
-  Apply taint shared-resource=limited:NoSchedule  
-  Add label capacity: high (Worker1), capacity: medium (Worker2)
+  taint:  shared-resource=limited:NoSchedule  
+  label:  capacity: high (Worker1), capacity: medium (Worker2)
 #### Worker3~4:
   No taints  
-  Add label capacity: high (Worker3), capacity: medium (Worker4)
+  label:  capacity: high (Worker3), capacity: medium (Worker4)
 ### Scheduling Requirements
 #### Deploy a 4-replica Tenant-A batch job with:
 Taint tolerance: Pods must explicitly tolerate the shared-resource=limited:NoSchedule taint.  
