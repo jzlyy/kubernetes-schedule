@@ -13,10 +13,11 @@ Based on taint, toleration, node affinity, pod affinity, and pod anti-affinity f
 ##### All nodes:
   zone label:  zone: zone-a (Worker1/3), zone: zone-b (Worker2/4)
 #### Scheduling Requirements
-  Exclusive use of GPU nodes (Worker1~2).  
-  Toleration for GPU taint required by all Pods.  
-  Anti-affinity: Pods from the same tenant (labeled with tenant: team-x) must not be scheduled on the same node.  
-  Preferred topology spread: Prioritize distributing Pods across multiple availability zones (zone).
+  Deploy a 3-replica AI inference service with:
+  1. Exclusive use of GPU nodes (Worker1~2).  
+  2. Toleration for GPU taint required by all Pods.  
+  3. Anti-affinity: Pods from the same tenant (labeled with tenant: team-x) must not be scheduled on the same node.  
+  4. Preferred topology spread: Prioritize distributing Pods across multiple availability zones (zone).
 ### 2.Web Service Dependency and High Availability Deployment
 #### Node Configurations:
 ##### All nodes:
