@@ -49,10 +49,10 @@ Based on taint, toleration, node affinity, pod affinity, and pod anti-affinity f
   Labels: zone: zone-a, disk: nvme
 #### Scheduling Requirements
 ##### Deploy a 3-replica database service with:
-  Zone exclusivity: Each Pod must occupy a unique availability zone (3 replicas spanning 3 distinct zone labels).  
-  Preferred disk types: Prioritize scheduling Pods on nodes labeled with disk: ssd or disk: nvme.  
-  Node anti-affinity: No more than one database Pod may run on the same node.  
-  Fallback tolerance: If resources are insufficient, allow partial Pods to use nodes labeled with disk: hdd.
+  1. Zone exclusivity: Each Pod must occupy a unique availability zone (3 replicas spanning 3 distinct zone labels).  
+  2. Preferred disk types: Prioritize scheduling Pods on nodes labeled with disk: ssd or disk: nvme.  
+  3. Node anti-affinity: No more than one database Pod may run on the same node.  
+  4. Fallback tolerance: If resources are insufficient, allow partial Pods to use nodes labeled with disk: hdd.
 
 ### 4.Tenant-Level Resource Preemption Defense
 ### Node Configuration
