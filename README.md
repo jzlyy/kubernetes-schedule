@@ -40,8 +40,8 @@ Based on taint, toleration, node affinity, pod affinity, and pod anti-affinity f
 ### 3.Multi-Availability Zone-Sensitive Database Cluster
 #### Node Configurations:
   Worker-node1: Labels: zone: zone-a, disk: ssd  
-  Worker-node2: Labels: zone: zone-b, disk: hdd
-  Worker-node3: Labels: zone: zone-c, disk: ssd
+  Worker-node2: Labels: zone: zone-b, disk: hdd  
+  Worker-node3: Labels: zone: zone-c, disk: ssd  
   Worker-node3: Labels: zone: zone-a, disk: nvme
 #### Scheduling Requirements
 ##### Deploy a 3-replica database service with:
