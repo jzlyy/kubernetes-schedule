@@ -82,5 +82,8 @@ Based on taint, toleration, node affinity, pod affinity, and pod anti-affinity f
   1. Strict anti-cohabitation: Pods must not coexist with Tenant-A Pods on the same node.  
   2. Node restriction: Scheduling is allowed only on taint-free nodes (Worker3~4).
 
+## Start
+The team can refer to my code solution and make reasonable modifications based on specific environmental requirements.
+
 ## Security Policy
 To report security vulnerabilities, please see [SECURITY.md](SECURITY.md)。
